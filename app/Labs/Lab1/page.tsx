@@ -1,6 +1,7 @@
 export default function Lab1() {
     return (
         <div id="wd-lab1">
+            <h1>Labs</h1>
             <h2>Lab 1</h2>
             <h3>HTML Examples</h3>
 
@@ -138,7 +139,7 @@ export default function Lab1() {
                         </tr>
                         <tr>
                             <td>Q10</td>
-                            <td>CSS</td>
+                            <td>Java</td>
                             <td>4/1/21</td>
                             <td>92</td>
                         </tr>

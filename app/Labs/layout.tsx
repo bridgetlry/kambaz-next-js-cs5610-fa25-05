@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import TOC from "./TOC";
+import TOC from "./TOC"; // Ensure the TOC file exists in the parent directory or update the path
 
 
 export default function LabsLayout({
