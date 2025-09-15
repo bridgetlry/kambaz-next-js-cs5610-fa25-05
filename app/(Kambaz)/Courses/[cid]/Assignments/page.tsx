@@ -36,11 +36,17 @@ export default function Assignments() {
                         A3 - JAVASCRIPT + REACT
                     </Link>
                     <br></br>
-                    Multiple Modules | 
+                    Multiple Modules |
                     <b> Not available until </b> May 20 at 12:00am |
                     <b> Due </b> May 27 at 11:59pm | 100 pts
                 </li>
             </ul>
+            <h3 id="wd-quizzes-title">
+                QUIZZES 10% of Total <button>+</button> </h3>
+            <h3 id="wd-exams-title">
+                EXAMS 20% of Total <button>+</button> </h3>
+            <h3 id="wd-project-title">
+                PROJECT 30% of Total <button>+</button> </h3>
         </div>
     );
 }
