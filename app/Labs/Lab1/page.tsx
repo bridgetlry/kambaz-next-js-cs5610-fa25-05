@@ -5,6 +5,7 @@ export default function Lab1() {
         <div id="wd-lab1">
             <h1>Labs</h1>
             <h2>Bridget Leary - SEC 05</h2>
+            <a href="https://github.com/bridgetlry/kambaz-next-js-cs5610-fa25-05">Link to GitHub</a>
             <ul>
                 <li>
                     <Link href="/Labs/Lab1" id="wd-lab1-link">
