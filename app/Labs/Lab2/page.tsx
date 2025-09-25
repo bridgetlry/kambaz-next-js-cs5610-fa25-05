@@ -12,13 +12,22 @@ import Float from "./Float";
 import GridLayout from "./GridLayout";
 import Flex from "./Flex";
 import Selectors from "./Selectors";
+import BootstrapGrids from "./BootstrapGrids";
+import { Container } from "react-bootstrap";
+import ScreenSizeLabel from "./ScreenSizeLabel";
+import ReactIconsSampler from "./ReactIcons";
+import BootstrapTables from "./BootstrapTables";
+import BootstrapLists from "./BootstrapLists";
+import BootstrapForm from "./BootstrapForm";
+import BootstrapNavigation from "./BootstrapNavigation";
 
 
 export default function Lab2() {
   return (
-    <div id="wd-lab2">
+    <Container fluid>
       <h2>Lab 2 - Cascading Style Sheets</h2>
       <h3>Styling with the STYLE attribute</h3>
+      <br />
       <p style={{ backgroundColor: "blue",
                   color: "white" }}>
         Style attribute allows configuring look and feel
@@ -39,5 +48,12 @@ export default function Lab2() {
       <Float />
       <GridLayout />
       <Flex />
-    </div>
+      <ReactIconsSampler />
+      <BootstrapGrids />
+      <ScreenSizeLabel />
+      <BootstrapTables />
+      <BootstrapLists />
+      <BootstrapForm />
+      <BootstrapNavigation />
+    </Container>
 );}

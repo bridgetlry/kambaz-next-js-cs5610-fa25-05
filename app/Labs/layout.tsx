@@ -9,6 +9,7 @@ export default function LabsLayout({
    <table>
      <tbody>
        <tr>
+\
          <td valign="top" width="100px">
            <TOC />
          </td>
