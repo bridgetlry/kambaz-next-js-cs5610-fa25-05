@@ -6,12 +6,13 @@ import ModuleControlButtons from "../Modules/ModuleControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { addAssignment } from "./reducer";
+import { deleteAssignment } from "./reducer";
 import { useDispatch, useSelector } from "react-redux";
 import AssignmentCreator from "./[aid]/page";
 
 export default function Assignments() {
     const router = useRouter();
+    const dispatch = useDispatch();
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
@@ -43,7 +44,7 @@ export default function Assignments() {
                     .map((assignment: any) => (
                         <ListGroupItem key={assignment._id} className="wd-assignment-list-item wd-lesson">
                             <Link href={`/Courses/${cid}/Assignments/${assignment._id}`} className="wd-assignment-link">
-                                {assignment.title} <LessonControlButtons />
+                                {assignment.title} <LessonControlButtons assignmentId={assignment._id} deleteAssignment={() => dispatch(deleteAssignment(assignment._id))} />
                             </Link>
                             <br />
                             {assignment.module} |

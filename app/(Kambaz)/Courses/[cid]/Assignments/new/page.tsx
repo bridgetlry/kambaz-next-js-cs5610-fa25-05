@@ -97,11 +97,16 @@ export default function AssignmentCreator() {
                         </Card>
                     </Col>
                 </Row>
-                <Button onClick={() => {
+                <Button onClick={async () => {
+                    console.log("About to dispatch assignment:", assignment);
                     dispatch(addAssignment(assignment));
                     router.push(`/Courses/${cid}/Assignments`);
-                }} variant="primary" type="submit">
-                    Save Assignment
+                }} variant="primary" type="button">
+                    Save
+                </Button>
+                <Button onClick={() =>
+                    router.push(`/Courses/${cid}/Assignments`)
+                } variant="secondary" type="button">Cancel
                 </Button>
             </Form>
         </div>

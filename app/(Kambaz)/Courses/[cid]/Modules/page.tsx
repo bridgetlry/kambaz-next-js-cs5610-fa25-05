@@ -55,7 +55,9 @@ export default function Modules() {
                                     <ListGroup className="wd-lessons rounded-0">
                                         {module.lessons.map((lesson: any) => (
                                             <ListGroupItem className="wd-lesson p-3 ps-1">
-                                                <BsGripVertical className="me-2 fs-3" /> {lesson.name} <LessonControlButtons />
+                                                <BsGripVertical className="me-2 fs-3" /> {lesson.name} <LessonControlButtons assignmentId={""} deleteAssignment={function (): void {
+                                                    throw new Error("Function not implemented.");
+                                                } } />
                                             </ListGroupItem>
                                         ))}
                                     </ListGroup>)
