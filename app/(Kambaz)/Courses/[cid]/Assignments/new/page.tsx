@@ -3,13 +3,16 @@ import { useParams, useRouter } from "next/navigation";
 import { use, useState } from "react";
 
 import { Button, Card, Col, Form, FormCheck, FormControl, FormLabel, FormSelect, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { addAssignment } from "../reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { addAssignment, setAssignments } from "../reducer";
+import * as client from "../../../client";
 
 export default function AssignmentCreator() {
     const router = useRouter();
-    const { cid } = useParams();
+    let { cid } = useParams();
     const dispatch = useDispatch();
+    const [assignmentTitle, setAssignmentTitle] = useState("");
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const [assignment, setAssignment] = useState({
         title: "",
         description: "",
@@ -18,6 +21,13 @@ export default function AssignmentCreator() {
         due_date: "",
         available_date: "",
     });
+
+    const onCreateAssignmentForCourse = async () => {
+        if (!cid) return;
+        cid = cid as string;
+        const newAssignment = await client.createAssignmentForCourse(cid, assignment);
+        dispatch(setAssignments([...assignments, newAssignment]));
+    };
     return (
         <div id="wd-assignments-editor">
             <Form>
@@ -30,13 +40,13 @@ export default function AssignmentCreator() {
                 <Row className="mb-3">
                     <FormLabel className="text-sm-end" column sm={2}></FormLabel>
                     <Col sm={10}>
-                        <FormControl as="textarea" style={{ height: "100px" }} defaultValue="" onChange={(e) => setAssignment({...assignment, description: e.target.value})}/>
+                        <FormControl as="textarea" style={{ height: "100px" }} defaultValue="" onChange={(e) => setAssignment({ ...assignment, description: e.target.value })} />
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <FormLabel className="text-sm-end" column sm={2}> Points </FormLabel>
                     <Col sm={10}>
-                        <FormControl type="number" defaultValue={0} onChange={(e) => setAssignment({...assignment, points: parseInt(e.target.value)})} />
+                        <FormControl type="number" defaultValue={0} onChange={(e) => setAssignment({ ...assignment, points: parseInt(e.target.value) })} />
                     </Col>
                 </Row>
                 <Row className="mb-3">
@@ -81,13 +91,13 @@ export default function AssignmentCreator() {
                             <FormLabel><b>Assign to</b></FormLabel>
                             <FormControl type="text" defaultValue="Everyone" />
                             <FormLabel><b>Due</b></FormLabel>
-                            <FormControl type="date" defaultValue="2024-01-01" min="2024-01-01" max="2025-12-31" 
-                                onChange={(e) => setAssignment({...assignment, due_date: e.target.value})}/>
+                            <FormControl type="date" defaultValue="2024-01-01" min="2024-01-01" max="2025-12-31"
+                                onChange={(e) => setAssignment({ ...assignment, due_date: e.target.value })} />
                             <Row>
                                 <Col>
                                     <FormLabel><b>Available From</b></FormLabel>
-                                    <FormControl type="date" defaultValue="2024-01-01" min="2024-01-01" max="2025-12-31" 
-                                        onChange={(e) => setAssignment({...assignment, available_date: e.target.value})} />
+                                    <FormControl type="date" defaultValue="2024-01-01" min="2024-01-01" max="2025-12-31"
+                                        onChange={(e) => setAssignment({ ...assignment, available_date: e.target.value })} />
                                 </Col>
                                 <Col>
                                     <FormLabel><b>Until</b></FormLabel>
@@ -99,7 +109,7 @@ export default function AssignmentCreator() {
                 </Row>
                 <Button onClick={async () => {
                     console.log("About to dispatch assignment:", assignment);
-                    dispatch(addAssignment(assignment));
+                    await onCreateAssignmentForCourse();
                     router.push(`/Courses/${cid}/Assignments`);
                 }} variant="primary" type="button">
                     Save

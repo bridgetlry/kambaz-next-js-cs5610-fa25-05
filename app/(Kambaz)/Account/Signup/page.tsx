@@ -1,25 +1,37 @@
-import React from "react";
+"use client";
+import * as client from "../client";
+import React, { useState } from "react";
 import Link from "next/link";
 import { FormControl } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../reducer";
+import { redirect } from "next/navigation";
 export default function Signup() {
-  return (
-    <div id="wd-signup-screen">
 
+  const [user, setUser] = useState<any>({});
+
+  const dispatch = useDispatch();
+
+  const signup = async () => {
+    const currentUser = await client.signup(user);
+    dispatch(setCurrentUser(currentUser));
+    redirect("/Account/Profile");
+  };
+
+  return (
+    <div className="wd-signup-screen">
       <h1>Sign up</h1>
-      <FormControl id="wd-username"
-             placeholder="username"
-             className="mb-2"/>
-      <FormControl id="wd-password"
-             placeholder="password" type="password"
-             className="mb-2"/>
-                   <FormControl id="wd-password"
-             placeholder="verify password" type="password"
-             className="mb-2"/>
-      <Link id="wd-signin-btn"
-            href="/Account/Profile"
-            className="btn btn-primary w-100 mb-2">
-            Sign up </Link>
-      <Link id="wd-signup-link" href="/Account/Signin">Sign in</Link>
-    </div> 
-);
+      <FormControl value={user.username}
+        onChange={(e) => setUser({
+          ...user,
+          username: e.target.value
+        })} />
+      <FormControl value={user.password} type="password"
+        onChange={(e) => setUser({
+          ...user,
+          password: e.target.value
+        })} />
+      <button className="btn btn-primary" onClick={signup}> Sign up </button><br />
+      <Link href="/Account/Signin">Sign in</Link>
+    </div>);
 }

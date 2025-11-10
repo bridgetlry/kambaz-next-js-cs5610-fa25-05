@@ -1,19 +1,30 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import * as db from "../../../../Database"
 
 import { useState } from "react";
 import { Button, Card, Col, Form, FormCheck, FormControl, FormLabel, FormSelect, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { updateAssignment } from "../reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setAssignments, updateAssignment } from "../reducer";
+import * as client from "../../../client";
 
 export default function AssignmentEditor() {
-    const { cid, aid } = useParams();
-    const assignment = db.assignments.find((a: any) => a._id === aid && a.course === cid);
+    let { cid, aid } = useParams();
+    const [assignmentTitle, setAssignmentTitle] = useState("");
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const assignment = assignments.find((a: any) => a._id === aid && a.course === cid);
     if (!assignment) {
         return <div>{aid}Assignment not found</div>;
     }
     const dispatch = useDispatch();
+
+
+    const onUpdateAssignment = async (assignment: any) => {
+        await client.updateAssignment(assignment);
+        const newAssignments = assignments.map((a: any) => a._id === assignment._id ? assignment : a);
+        dispatch(setAssignments(newAssignments));
+    };
+
+
     const router = useRouter();
     const [assignmentState, setAssignment] = useState(assignment);
     return (
@@ -22,19 +33,19 @@ export default function AssignmentEditor() {
                 <Row className="mb-3">
                     <FormLabel className="text-sm-end" column sm={2}> Assignment Name </FormLabel>
                     <Col sm={10}>
-                        <FormControl type="text" value={assignmentState.title} onChange={(e) => setAssignment({...assignmentState, title: e.target.value})} />
+                        <FormControl type="text" value={assignmentState.title} onChange={(e) => setAssignment({ ...assignmentState, title: e.target.value })} />
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <FormLabel className="text-sm-end" column sm={2}></FormLabel>
                     <Col sm={10}>
-                        <FormControl as="textarea" style={{ height: "100px" }} value={assignmentState.description} onChange={(e) => setAssignment({...assignmentState, description: e.target.value})} />
+                        <FormControl as="textarea" style={{ height: "100px" }} value={assignmentState.description} onChange={(e) => setAssignment({ ...assignmentState, description: e.target.value })} />
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <FormLabel className="text-sm-end" column sm={2}> Points </FormLabel>
                     <Col sm={10}>
-                        <FormControl type="number" value={assignmentState.points} onChange={(e) => setAssignment({...assignmentState, points: Number(e.target.value)})} />
+                        <FormControl type="number" value={assignmentState.points} onChange={(e) => setAssignment({ ...assignmentState, points: Number(e.target.value) })} />
                     </Col>
                 </Row>
                 <Row className="mb-3">
@@ -83,18 +94,18 @@ export default function AssignmentEditor() {
                             <Row>
                                 <Col>
                                     <FormLabel><b>Available From</b></FormLabel>
-                                    <FormControl type="date" value={assignmentState.available_date} min="2024-01-01" max="2025-12-31" onChange={(e) => setAssignment({...assignmentState, available_date: e.target.value})}/>
+                                    <FormControl type="date" value={assignmentState.available_date} min="2024-01-01" max="2025-12-31" onChange={(e) => setAssignment({ ...assignmentState, available_date: e.target.value })} />
                                 </Col>
                                 <Col>
                                     <FormLabel><b>Until</b></FormLabel>
-                                    <FormControl type="date" value={assignmentState.due_date} min="2024-01-01" max="2025-12-31" onChange={(e) => setAssignment({...assignmentState, due_date: e.target.value})} />
+                                    <FormControl type="date" value={assignmentState.due_date} min="2024-01-01" max="2025-12-31" onChange={(e) => setAssignment({ ...assignmentState, due_date: e.target.value })} />
                                 </Col>
                             </Row>
                         </Card>
                     </Col>
                 </Row>
                 <Button onClick={async () => {
-                    dispatch(updateAssignment(assignmentState));
+                    await onUpdateAssignment(assignmentState);
                     router.push(`/Courses/${cid}/Assignments`);
                 }} variant="primary" type="button">
                     Save

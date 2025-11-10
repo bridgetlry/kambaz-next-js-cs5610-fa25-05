@@ -5,16 +5,33 @@ import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
 import ModuleControlButtons from "../Modules/ModuleControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { deleteAssignment } from "./reducer";
+import { useEffect, useState } from "react";
+import { setAssignments, deleteAssignment } from "./reducer";
 import { useDispatch, useSelector } from "react-redux";
 import AssignmentCreator from "./[aid]/page";
+import * as client from "../../client";
 
 export default function Assignments() {
     const router = useRouter();
     const dispatch = useDispatch();
-    const { cid } = useParams();
+    let { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const fetchAssignments = async () => {
+        const assignments = await client.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+
+
+    const onRemoveAssignment = async (assignmentId: string) => {
+        await client.deleteAssignment(assignmentId);
+        dispatch(setAssignments(assignments.filter((a: any) => a._id !== assignmentId)));
+    };
+
+
+
+    useEffect(() => {
+        fetchAssignments();
+    }, []);
 
     return (
         <div id="wd-assignments">
@@ -44,8 +61,8 @@ export default function Assignments() {
                     .map((assignment: any) => (
                         <ListGroupItem key={assignment._id} className="wd-assignment-list-item wd-lesson">
                             <Link href={`/Courses/${cid}/Assignments/${assignment._id}`} className="wd-assignment-link">
-                                {assignment.title} <LessonControlButtons assignmentId={assignment._id} deleteAssignment={() => dispatch(deleteAssignment(assignment._id))} />
-                            </Link>
+                                                            {assignment.title} <LessonControlButtons assignmentId={assignment._id} deleteAssignment={() => onRemoveAssignment(assignment._id)} />
+                                                        </Link>
                             <br />
                             {assignment.module} |
                             <b> Not available until </b> {assignment.available} |
