@@ -19,6 +19,11 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      // Allow unescaped characters in JSX text (apostrophes, quotes, >, etc.)
+      // This project prefers literal text over HTML entities; disable the rule.
+      "react/no-unescaped-entities": "off",
+    },
   },
 ];
 
