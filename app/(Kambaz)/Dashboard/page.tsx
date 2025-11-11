@@ -19,7 +19,7 @@ export default function Dashboard() {
   });
   const fetchCourses = async () => {
     try {
-      const courses = await client.findMyCourses();
+      const courses = await client.fetchAllCourses();
       dispatch(setCourses(courses));
     } catch (error) {
       console.error(error);
@@ -49,10 +49,16 @@ export default function Dashboard() {
       enrollment.course === courseId
     );
   }
+    console.log("Enrollments in state:", enrollments);
 
   const onEnroll = async (courseId: string) => {
-    const enrollment = await client.enroll(courseId, currentUser?._id);
-    dispatch(setEnrollments([...enrollments, enrollment])); 
+    const response = await client.enroll(courseId, currentUser?._id);
+    const enrollmentData = response?.data || response;
+    console.log("Enrollment response:", response);
+    console.log("Enrollment data:", enrollmentData);
+    console.log("Current user:", currentUser?._id);
+    console.log("Course ID:", courseId);
+    dispatch(setEnrollments([...enrollments, enrollmentData])); 
   }
 
   const onUnenroll = async (courseId: string) => {
@@ -90,9 +96,9 @@ export default function Dashboard() {
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {(showEnrollments ? courses
+          {(showEnrollments ? courses : courses
             .filter((course: { _id: string; }) =>
-              isEnrolled(course._id, currentUser?._id)) : courses)
+              isEnrolled(course._id, currentUser?._id)))
             .map((course: { _id: any; name: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; description: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
               <Col className="wd-dashboard-course" style={{ width: "325px" }}>
                 <Card>
