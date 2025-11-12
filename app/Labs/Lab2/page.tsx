@@ -22,6 +22,7 @@ import BootstrapForm from "./BootstrapForm";
 import BootstrapNavigation from "./BootstrapNavigation";
 
 
+/* eslint-disable react/no-unescaped-entities */
 export default function Lab2() {
   return (
     <Container fluid>
