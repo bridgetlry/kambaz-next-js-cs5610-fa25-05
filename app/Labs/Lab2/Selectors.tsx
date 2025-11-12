@@ -8,6 +8,7 @@ export default function Selectors() {
                     elements of the same name, e.g., P, we can refer
                     to a specific element by its ID
                 </p>
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p id="wd-id-selector-2">
                     Here&apos;s another paragraph using a different ID and
                     a different look and feel
@@ -15,6 +16,7 @@ export default function Selectors() {
             </div>
             <div id="wd-css-class-selectors">
                 <h3>Class selectors</h3>
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p className="wd-class-selector">
                     Instead of using IDs to refer to elements,
                     you can use an element&apos;s CLASS attribute
@@ -31,6 +33,7 @@ export default function Selectors() {
                     <div className="wd-selector-2">
                         Selectors can be combined to refer elements in particular
                         places in the document
+                        {/* eslint-disable-next-line react/no-unescaped-entities */}
                         <p className="wd-selector-3">
                             This paragraph&apos;s red background is referenced as
                             <br />

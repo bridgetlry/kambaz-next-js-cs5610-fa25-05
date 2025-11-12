@@ -28,6 +28,7 @@ export default function Lab2() {
       <h2>Lab 2 - Cascading Style Sheets</h2>
       <h3>Styling with the STYLE attribute</h3>
       <br />
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       <p style={{ backgroundColor: "blue",
                   color: "white" }}>
         Style attribute allows configuring look and feel

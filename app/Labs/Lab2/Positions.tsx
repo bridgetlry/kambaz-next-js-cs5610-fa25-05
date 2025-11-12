@@ -34,8 +34,9 @@ export default function Positions() {
                 </div>
             </div>
             <div id="wd-css-position-fixed">
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <h2>Fixed position</h2>
-                Checkout the blue square that says &quot;Fixed position&quot; stuck all the way on the right and half way down the page. It doesn&apos;t scroll with the rest of the page. Its position is &quot;Fixed&quot;.
+                <p>Checkout the blue square that says &quot;Fixed position&quot; stuck all the way on the right and half way down the page. It doesn&apos;t scroll with the rest of the page. Its position is &quot;Fixed&quot;.</p>
                 <div className="wd-pos-fixed 
                                 wd-dimension-square wd-bg-color-blue 
                                 wd-fg-color-white">
