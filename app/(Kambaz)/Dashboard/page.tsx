@@ -26,9 +26,22 @@ export default function Dashboard() {
     }
   };
   const onAddNewCourse = async () => {
-    const newCourse = await client.createCourse(course);
+    const response = await client.createCourse(course);
+    console.log("Full response:", response);
+    console.log("response.course:", response.course);
+    console.log("response.enrollment:", response.enrollment);
+
+    // Extract both course and enrollment
+    const newCourse = response.course;
+    const newEnrollment = response.enrollment;
+
+    console.log("newCourse:", newCourse);
+    console.log("newEnrollment:", newEnrollment);
+
     dispatch(setCourses([...courses, newCourse]));
+    dispatch(setEnrollments([...enrollments, newEnrollment]));
   };
+
   const onDeleteCourse = async (courseId: string) => {
     const status = await client.deleteCourse(courseId);
     dispatch(setCourses(courses.filter((course: { _id: string; }) =>
@@ -49,35 +62,34 @@ export default function Dashboard() {
       enrollment.course === courseId
     );
   }
-    console.log("Enrollments in state:", enrollments);
+  // console.log("Enrollments in state:", enrollments);
 
   const onEnroll = async (courseId: string) => {
-    const response = await client.enroll(courseId, currentUser?._id);
+    const response = await client.enrollIntoCourse(currentUser?._id, courseId);
     const enrollmentData = response?.data || response;
-    console.log("Enrollment response:", response);
-    console.log("Enrollment data:", enrollmentData);
-    console.log("Current user:", currentUser?._id);
-    console.log("Course ID:", courseId);
-    dispatch(setEnrollments([...enrollments, enrollmentData])); 
+    dispatch(setEnrollments([...enrollments, enrollmentData]));
   }
 
   const onUnenroll = async (courseId: string) => {
-    const status = await client.unenroll(courseId, currentUser._id);
+    const status = await client.unenrollFromCourse(currentUser._id, courseId);
     dispatch(setEnrollments(enrollments.filter((enrollment: { user: string; course: string; }) =>
       !(enrollment.user === currentUser._id &&
-      enrollment.course === courseId)
+        enrollment.course === courseId)
     )));
   }
 
   useEffect(() => {
     fetchCourses();
+    client.fetchEnrollments(currentUser?._id).then((data) => {
+      dispatch(setEnrollments(data));
+    });
   }, [currentUser]);
 
   return (
     <div id="wd-dashboard">
       <button className="btn btn-primary float-end"
         id="wd-enrollments-click"
-        onClick={() => setShowEnrollments(!showEnrollments)}>Enrollments</button>
+        onClick={() => setShowEnrollments(!showEnrollments)}>{ showEnrollments ? "My Courses" : "All Courses"}</button>
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
       <h5>New Course
@@ -92,7 +104,7 @@ export default function Dashboard() {
       <FormControl value={course.description} rows={3} as="textarea"
         onChange={(e) => setCourse({ ...course, description: e.target.value })} />
       <hr />
-  
+
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
