@@ -131,25 +131,25 @@ export default function Dashboard() {
                       <CardText className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
                         {course.description} </CardText>
                       <Button variant="primary"> Go </Button>
-
-
-                      <Button variant={isEnrolled(course._id, currentUser?._id) ? "danger" : "success"}
-                        id="wd-enrollment-course-click"
-                        onClick={isEnrolled(course._id, currentUser?._id) ?
-                          // Unenroll
-                          (event) => {
-                            event.preventDefault();
-                            onUnenroll(course._id);
-                          }
-                          :
-                          // Enroll
-                          (event) => {
-                            event.preventDefault();
-                            onEnroll(course._id);
-                          }}
-                      >
-                        {isEnrolled(course._id, currentUser?._id) ? "Unenroll" : "Enroll"}
-                      </Button>
+                      {showEnrollments ? 
+                        <Button variant={isEnrolled(course._id, currentUser?._id) ? "danger" : "success"}
+                          id="wd-enrollment-course-click"
+                          onClick={isEnrolled(course._id, currentUser?._id) ?
+                            // Unenroll
+                            (event) => {
+                              event.preventDefault();
+                              onUnenroll(course._id);
+                            }
+                            :
+                            // Enroll
+                            (event) => {
+                              event.preventDefault();
+                              onEnroll(course._id);
+                            }}
+                        >
+                          {isEnrolled(course._id, currentUser?._id) ? "Unenroll" : "Enroll"}
+                        </Button>
+                      : null}
 
                       <Button id="wd-edit-course-click"
                         onClick={(event) => {
