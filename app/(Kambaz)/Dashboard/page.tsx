@@ -25,6 +25,16 @@ export default function Dashboard() {
       console.error(error);
     }
   };
+  const fetchEnrollments = async () => {
+    try {
+      if (currentUser?._id) {
+        const enrollments = await client.fetchEnrollments(currentUser._id);
+        dispatch(setEnrollments(enrollments));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const onAddNewCourse = async () => {
     const response = await client.createCourse(course);
     console.log("Full response:", response);
@@ -80,16 +90,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchCourses();
-    client.fetchEnrollments(currentUser?._id).then((data) => {
-      dispatch(setEnrollments(data));
-    });
+    fetchEnrollments();
   }, [currentUser]);
 
   return (
     <div id="wd-dashboard">
       <button className="btn btn-primary float-end"
         id="wd-enrollments-click"
-        onClick={() => setShowEnrollments(!showEnrollments)}>{ showEnrollments ? "My Courses" : "All Courses"}</button>
+        onClick={() => setShowEnrollments(!showEnrollments)}>{showEnrollments ? "My Courses" : "All Courses"}</button>
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
       <h5>New Course
