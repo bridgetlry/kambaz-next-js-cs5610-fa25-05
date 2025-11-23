@@ -63,8 +63,11 @@ export const updateModule = async (courseId: string, module: any) => {
 };
 
 export const findAssignmentsForCourse = async (courseId: string) => {
+  console.log(`In client: _${courseId}_`);
   const response = await axios
     .get(`${COURSES_API}/${courseId}/assignments`);
+  console.log("response: ", response);
+  console.log("response.data: ", response.data);
   return response.data;
 };
 

@@ -15,7 +15,7 @@ export default function Assignments() {
     const router = useRouter();
     const dispatch = useDispatch();
     let { cid } = useParams();
-    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const { assignments = [] } = useSelector((state: any) => state.assignmentsReducer);
     const fetchAssignments = async () => {
         const assignments = await client.findAssignmentsForCourse(cid as string);
         dispatch(setAssignments(assignments));
