@@ -8,7 +8,13 @@ import { setCurrentUser } from "../reducer";
 import { redirect } from "next/navigation";
 export default function Signup() {
 
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    email: ""
+  });
 
   const dispatch = useDispatch();
 
