@@ -11,6 +11,7 @@ import { setModules, addModule, editModule, updateModule, deleteModule }
     from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import * as client from "../../client";
+import Link from "next/link";
 
 export default function Modules() {
 
@@ -18,7 +19,7 @@ export default function Modules() {
     const [moduleName, setModuleName] = useState("");
     const { modules } = useSelector((state: any) => state.modulesReducer);
     const dispatch = useDispatch();
-    
+
     const fetchModules = async () => {
         const modules = await client.findModulesForCourse(cid as string);
         dispatch(setModules(modules));
@@ -79,9 +80,15 @@ export default function Modules() {
                                     <ListGroup className="wd-lessons rounded-0">
                                         {module.lessons.map((lesson: any) => (
                                             <ListGroupItem className="wd-lesson p-3 ps-1">
-                                                <BsGripVertical className="me-2 fs-3" /> {lesson.name} <LessonControlButtons assignmentId={""} deleteAssignment={function (): void {
-                                                    throw new Error("Function not implemented.");
-                                                }} />
+                                                <BsGripVertical className="me-2 fs-3" />
+                                                {lesson.youTubeId && (
+                                                    <Link href={lesson.youTubeId ?
+                                                        `/Courses/${cid}/YouTube/Details/${lesson.youTubeId}`
+                                                        : `/Courses/${cid}/YouTube/${lesson.name}`}>
+                                                        {lesson.name}
+                                                    </Link>)}
+                                                {!lesson.youTubeId && lesson.name}
+                                                <LessonControlButtons lesson={lesson} moduleId={module._id} />
                                             </ListGroupItem>
                                         ))}
                                     </ListGroup>)
@@ -89,6 +96,6 @@ export default function Modules() {
                             </ListGroupItem>))
                     }</ListGroup>
             </div>
-        </div>
+        </div >
     );
 }

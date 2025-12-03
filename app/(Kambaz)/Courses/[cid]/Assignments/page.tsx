@@ -10,6 +10,7 @@ import { setAssignments, deleteAssignment } from "./reducer";
 import { useDispatch, useSelector } from "react-redux";
 import AssignmentCreator from "./[aid]/page";
 import * as client from "../../client";
+import AssignmentControlButtons from "./AssignmentControlButtons";
 
 export default function Assignments() {
     const router = useRouter();
@@ -61,7 +62,7 @@ export default function Assignments() {
                     .map((assignment: any) => (
                         <ListGroupItem key={assignment._id} className="wd-assignment-list-item wd-lesson">
                             <Link href={`/Courses/${cid}/Assignments/${assignment._id}`} className="wd-assignment-link">
-                                                            {assignment.title} <LessonControlButtons assignmentId={assignment._id} deleteAssignment={() => onRemoveAssignment(assignment._id)} />
+                                                            {assignment.title} <AssignmentControlButtons assignmentId={assignment._id} deleteAssignment={() => onRemoveAssignment(assignment._id)} />
                                                         </Link>
                             <br />
                             {assignment.module} |

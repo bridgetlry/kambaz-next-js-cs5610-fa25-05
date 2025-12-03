@@ -1,19 +1,22 @@
- 'use client';
- import Link from "next/link";
- import { useParams, usePathname } from 'next/navigation';
+'use client';
+import Link from "next/link";
+import { useParams, usePathname } from 'next/navigation';
 
 export default function CourseNavigation() {
   const pathname = usePathname();
   const { cid } = useParams();
   const links = [
-    { label: "Home",        path: "/Home"        },
-    { label: "Modules",     path: "/Modules"     },
-    { label: "Piazza",      path: "/Piazza"      },
-    { label: "Zoom",        path: "/Zoom"        },
+    { label: "Home", path: "/Home" },
+    { label: "Modules", path: "/Modules" },
+    { label: "Piazza", path: "/Piazza" },
+    { label: "Zoom", path: "/Zoom" },
     { label: "Assignments", path: "/Assignments" },
-    { label: "Quizzes",     path: "/Quizzes"     },
-    { label: "Grades",      path: "/Grades"      },
-    { label: "People",      path: "/People/Table"},
+    { label: "Quizzes", path: "/Quizzes" },
+    { label: "Grades", path: "/Grades" },
+    { label: "People", path: "/People/Table" },
+    { label: "YouTube", path: "/YouTube/Search" }
+
+
   ]
 
   return (
